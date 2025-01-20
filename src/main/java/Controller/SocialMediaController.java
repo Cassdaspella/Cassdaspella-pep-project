@@ -1,5 +1,9 @@
 package Controller;
 
+import Model.Account;
+import Service.AccountService;
+import Service.MessagesService;
+import Service.AccountService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -14,20 +18,49 @@ public class SocialMediaController {
      * suite must receive a Javalin object from this method.
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
+    
+     AccountService accountService;
+     MessagesService messagesService;
+    
+     public SocialMediaController () {
+        this.accountService = new AccountService();
+        this.messagesService = new MessagesService();
+     }
+
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
+        app.post("/register", this::postUserHandler);
+        app.post("/login", this::postLoginHandler);
+        app.post("/messages", this::postMessagesHandler);
+        app.get("/messages", this::getMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessageIDsHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageByIDHandler);
+        app.patch("/messages/{message_id}", this::updateMessageByIDHandler);
+        app.get("/accounts/{account_id}", this::getMessageByUserHandler);
+
 
         return app;
     }
 
     /**
      * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     * @param context 
+     * 
      */
-    private void exampleHandler(Context context) {
-        context.json("sample text");
+    private void postUserHandler(Context ctx) {
     }
-
-
+    private void postLoginHandler(Context ctx) {
+    }
+    private void postMessagesHandler(Context ctx) {
+    }
+    private void getMessagesHandler(Context ctx) {
+    }
+    private void getMessageIDsHandler(Context ctx) {
+    }
+    private void deleteMessageByIDHandler(Context ctx) {
+    }
+    private void updateMessageByIDHandler(Context ctx) {
+    }
+    private void getMessageByUserHandler(Context ctx) {
+    }
 }
