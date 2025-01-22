@@ -41,7 +41,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageIDsHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIDHandler);
         app.patch("/messages/{message_id}", this::updateMessageByIDHandler);
-        app.get("/accounts/{account_id}", this::getMessageByUserHandler);
+        app.get("/accounts/{account_id}/messages", this::getMessageByUserHandler);
         
         return app.stop();
     }
@@ -106,10 +106,19 @@ public class SocialMediaController {
     private void deleteMessageByIDHandler(Context ctx) {
         //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     }
-    private void updateMessageByIDHandler(Context ctx) {
-
+    private void updateMessageByIDHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message updatedMessage = messagesService.updateMessage(message_id, message);
+        System.out.println(updatedMessage);
+        if (updatedMessage == null || message.getMessage_text() == "" || message.getMessage_text().length() >= 255) {
+            ctx.status(400);            
+        }
+        else {
+            ctx.json(mapper.writeValueAsString(updatedMessage));
+        }
     }
     private void getMessageByUserHandler(Context ctx) {
-
     }
 }
