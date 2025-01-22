@@ -26,7 +26,7 @@ public class MessagesDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, message.getPosted_by());
             preparedStatement.setString(2, message.getMessage_text());
-            preparedStatement.setLong(3, message.getPosted_by());
+            preparedStatement.setLong(3, message.getTime_posted_epoch());
 
             preparedStatement.executeUpdate();
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
@@ -36,7 +36,7 @@ public class MessagesDAO {
                     generated_message_id, 
                     message.getPosted_by(), 
                     message.getMessage_text(), 
-                    message.getPosted_by());
+                    message.getTime_posted_epoch());
                 }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

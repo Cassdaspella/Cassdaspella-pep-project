@@ -7,6 +7,8 @@ import io.javalin.http.Context;
 import Model.Message;
 import Model.Account;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,7 +33,7 @@ public class SocialMediaController {
      }
 
     public Javalin startAPI() {
-        Javalin app = Javalin.create().start(8080);
+        Javalin app = Javalin.create();
         app.post("/register", this::postUserHandler);
         app.post("/login", this::postLoginHandler);
         app.post("/messages", this::postMessagesHandler);
@@ -40,13 +42,12 @@ public class SocialMediaController {
         app.delete("/messages/{message_id}", this::deleteMessageByIDHandler);
         app.patch("/messages/{message_id}", this::updateMessageByIDHandler);
         app.get("/accounts/{account_id}", this::getMessageByUserHandler);
-
-
-        return app;
+        
+        return app.stop();
     }
 
     /**
-     * This is an example handler for an example endpoint.
+     * Grabs the new account
      * @param context 
      * 
      */
@@ -58,22 +59,57 @@ public class SocialMediaController {
             ctx.status(400);
         }
         else {
+            ctx.json(mapper.writeValueAsString(addedAccount));
+            ctx.status(200);
+        }   
+    }
+
+    /**
+     * Grabs and makes sure there is a valid login
+     */
+    private void postLoginHandler(Context ctx) {
+//TODO!!!!!! GET THE LOGIN!
+    }
+
+    /**
+     * grabs the message and makes sure it is valid
+     */
+    private void postMessagesHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message addedMessage = messagesService.addMessage(message);
+        if (addedMessage == null) { 
+            ctx.status(400);
+        } else {
+            ctx.json(mapper.writeValueAsString(addedMessage));
             ctx.status(200);
         }
-        
     }
-    private void postLoginHandler(Context ctx) {
-    }
-    private void postMessagesHandler(Context ctx) {
-    }
+
+    /**
+     * grabs all messages
+     * @param ctx
+     */
     private void getMessagesHandler(Context ctx) {
+        List<Message> messages = messagesService.getMessages();
+        ctx.json(messages);
     }
+
+    /**
+     * grabs messages by their ID
+     * @param ctx
+     */
     private void getMessageIDsHandler(Context ctx) {
+        //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     }
+
     private void deleteMessageByIDHandler(Context ctx) {
+        //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     }
     private void updateMessageByIDHandler(Context ctx) {
+
     }
     private void getMessageByUserHandler(Context ctx) {
+
     }
 }

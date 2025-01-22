@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.MessagesDAO;
 import Model.Message;
 
@@ -26,6 +28,13 @@ public class MessagesService {
             return messagesDAO.insertMessage(message);
         }
     }
+/**
+ * o : return all messages
+ * @return
+ */
+    public List<Message> getMessages(){
+        return messagesDAO.getAllMessages();
+    }
 
     public Message updateMessage(int message_id, Message message){
         if (messagesDAO.getMessageById(message_id) != null) {
@@ -33,6 +42,14 @@ public class MessagesService {
             return messagesDAO.getMessageById(message_id);
         }
         else{
+            return null;
+        }
+    }
+
+    public Message getMessageById(int id){
+        if (messagesDAO.getMessageById(id) != null) {
+            return messagesDAO.getMessageById(id);
+        } else {
             return null;
         }
     }
