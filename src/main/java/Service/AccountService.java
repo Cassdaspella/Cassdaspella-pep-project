@@ -39,9 +39,14 @@ public class AccountService {
      * @return
      */
     public Account getLogIn(String username, String password){
-        if(username == null){
+        if(username == "" || username == null){
             return null;
         }
-        return null;
+        if (password == null || password.length() < 4){
+            return null;
+        }
+        else {
+            return accountDAO.getAccountLogin(username, password);
+        }
     }
 }

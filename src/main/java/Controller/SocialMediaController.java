@@ -67,8 +67,19 @@ public class SocialMediaController {
     /**
      * Grabs and makes sure there is a valid login
      */
-    private void postLoginHandler(Context ctx) {
-//TODO!!!!!! GET THE LOGIN!
+    private void postLoginHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account loginAccount = accountService.getLogIn(account.getUsername(), account.getPassword());
+        if (loginAccount == null){
+            ctx.status(401);
+        }
+        else {
+            ctx.json(loginAccount);
+        }
+        
+
+        //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     }
 
     /**
