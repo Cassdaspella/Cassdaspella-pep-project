@@ -47,9 +47,8 @@ public class AccountDAO {
      * @param password user input of the password
      * @return
      */
-    public List<Account> getAccountLogin(String username, String password){
+    public Account getAccountLogin(String username, String password){
         Connection connection = ConnectionUtil.getConnection();
-        List<Account> accounts = new ArrayList<>();
         try {
             String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
 
@@ -59,14 +58,17 @@ public class AccountDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Account account = new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
-                accounts.add(account);
+                Account account = new Account(
+                    rs.getInt("account_id"), 
+                    rs.getString("username"), 
+                    rs.getString("password"));
+                return account;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         
-        return accounts;
+        return null;
     }
     
 }
