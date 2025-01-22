@@ -136,14 +136,14 @@ public class MessagesDAO {
  * @param username users will input a username that will find all the messages from that user
  * @return a List<> of messages 
  */
-    public List<Message> getMessagesByUser(String username){
+    public List<Message> getMessagesByUser(int account_id){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
-            String sql = "SELECT account.username, message.message_id, message.message_text FROM account RIGHT JOIN message ON account.account_id = message.posted_by WHERE account.username = ?";
+            String sql = "SELECT * FROM account RIGHT JOIN message ON account.account_id = message.posted_by WHERE account.account_id = ?";
             
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
+            preparedStatement.setInt(1, account_id);
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){

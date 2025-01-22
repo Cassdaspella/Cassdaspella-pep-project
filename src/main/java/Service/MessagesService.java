@@ -54,7 +54,7 @@ public class MessagesService {
         }
     }
 
-    public List<Message> getMessagesByUser(String account_id){
+    public List<Message> getMessagesByUser(int account_id){
         return messagesDAO.getMessagesByUser(account_id);
     }
 }
