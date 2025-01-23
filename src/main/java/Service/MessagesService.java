@@ -46,6 +46,14 @@ public class MessagesService {
         }
     }
 
+    public Message deleteMessageById(int message_id){
+        if(messagesDAO.getMessageById(message_id) != null){
+            return messagesDAO.getMessageById(message_id);
+        }
+        else{
+            return null;
+        }
+    }
     public Message getMessageById(int id){
         if (messagesDAO.getMessageById(id) != null) {
             return messagesDAO.getMessageById(id);

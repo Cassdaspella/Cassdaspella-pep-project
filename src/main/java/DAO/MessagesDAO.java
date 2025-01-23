@@ -104,7 +104,7 @@ public class MessagesDAO {
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-
+            
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
