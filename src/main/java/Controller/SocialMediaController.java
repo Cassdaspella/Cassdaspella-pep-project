@@ -43,7 +43,7 @@ public class SocialMediaController {
         app.patch("/messages/{message_id}", this::updateMessageByIDHandler);
         app.get("/accounts/{account_id}/messages", this::getMessageByUserHandler);
         
-        return app.stop();
+        return app;
     }
 
     /**
